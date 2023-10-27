@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
 
 function App() {
+  const [workers,setWorkers] = useEffect([])
+  const getWorkers = async()=>{
+    
+  }
+
+  const allocateJob = ()=> {
+  
+  const selectElement = document.getElementById("jobType");
+  const selectedJob = selectElement.value;
+  console.log("Selected value: " + selectedJob);
+  
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <p>Work Requirement</p>
+     <select id="jobType">
+      <option>front end </option>
+      <option>back end </option>
+     </select>
+     <button onClick={allocateJob()}>Go</button>
     </div>
   );
 }
