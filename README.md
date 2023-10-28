@@ -2,7 +2,7 @@
 A dynamic work allocation system for optimizing task assignment within a software development team.
 
 ## Description
-This project is a dynamic work allocation system that optimizes task assignment within a software development team. It considers various factors such as team members' skills, availability, and workload to ensure a fair distribution of work and minimize bottlenecks.
+This project is a dynamic work allocation system that optimizes task assignment within a software development team. It considers various factors such as team members' skills, availability, and workload to ensure a fair distribution of work and minimize bottlenecks.(In this prototype, a dummy database is already created to show the working)
 
 ## Technologies Used
 - HTML
