@@ -1,12 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { db } from "./firebaseconfig";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection,doc,getDocs } from "firebase/firestore";
 
 function App() {
-  const selectElement = document.getElementById("jobType");
-  const selectedJob = selectElement.value;
-
+  const [selectedJob, setSelectedJob] = useState(""); 
   const [workers, setWorkers] = useState([]);
+  const [finalList, setFinalList] = useState([]);
   const workersCollectionRef = collection(db, "workers");
 
   const getWorkers = async () => {
@@ -14,51 +13,61 @@ function App() {
     setWorkers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
-  // function bubbleSort(arr) {
-  //   let n = arr.length;
-  //   let swapped;
-  //   do {
-  //     swapped = false;
-  //     for (let i = 0; i < n - 1; i++) {
-  //       if (arr[i].workload > arr[i + 1].workload) {
-          
-  //         let temp = arr[i];
-  //         arr[i] = arr[i + 1];
-  //         arr[i + 1] = temp;
-  //         swapped = true;
-  //       }
-  //     }
-  //   } while (swapped);
-  //   return arr;
-  // }
-  const matched = []
   const skillMatching = () => {
-    workers.map((worker) => {
-      
-      if (worker.skill === selectedJob) {
-        matched.push(worker);
-      }
-      
-    });
+    return workers.filter((worker) => worker.skill === selectedJob);
+  };
 
-   
-  };
-  const allocateJob = () => {
-    getWorkers();
-    skillMatching();
-    // const finalList = bubbleSort(matched)
-    // console.log(finalList)
+  const bubbleSort = (arr) => {
+    const n = arr.length;
+    let swapped;
     
+    do {
+      swapped = false;
+      
+      for (let i = 0; i < n - 1; i++) {
+        if (arr[i].workload > arr[i + 1].workload) {
+          const temp = arr[i];
+          arr[i] = arr[i + 1];
+          arr[i + 1] = temp;
+          swapped = true;
+        }
+      }
+    } while (swapped);
+  
+    return arr;
   };
+  
+  const allocateJob = async () => {
+    await getWorkers();
+    const matchedWorkers = skillMatching();
+  
+    const sortedList = bubbleSort(matchedWorkers);
+    setFinalList(sortedList);
+  };
+  
 
   return (
     <div className="App">
       <p>Work Requirement</p>
-      <select id="jobType">
-        <option>front end </option>
-        <option>back end </option>
+      <select
+        id="jobType"
+        value={selectedJob}
+        onChange={(e) => setSelectedJob(e.target.value)}
+      >
+        <option value="">Select a job</option>
+        <option value="frontend">Front End</option>
+        <option value="backend">Back End</option>
       </select>
       <button onClick={allocateJob}>Go</button>
+
+      {finalList.length > 0 && (
+        <div>
+          <h2>Sorted Worker:</h2>
+          <p>
+            {`Name: ${finalList[0].name}, Workload: ${finalList[0].workload}`}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
