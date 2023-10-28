@@ -62,7 +62,7 @@ function App() {
 
       {finalList.length > 0 && (
         <div>
-          <h2>Sorted Worker:</h2>
+          <h2>Task is assigned to :</h2>
           <p>
             {`Name: ${finalList[0].name}, Workload: ${finalList[0].workload}`}
           </p>
